@@ -89,6 +89,7 @@ bool PresenceData::operator!=( const PresenceData& other )
 void PresenceData::CopyData( const PresenceData& other )
 {
     metadb = other.metadb;
+    statusText = other.statusText;
     topText = other.topText;
     middleText = other.middleText;
     bottomText = other.bottomText;
@@ -105,6 +106,7 @@ void PresenceData::CopyData( const PresenceData& other )
 
 void PresenceData::UpdateTextFieldPointers()
 {
+    presence.name = statusText.c_str();
     presence.details = topText.c_str();
     presence.state = middleText.c_str();
     presence.largeImageText = bottomText.c_str();
@@ -248,6 +250,7 @@ void PresenceModifier::UpdateTrack( metadb_handle_ptr metadb )
 {
     auto& pd = presenceData_;
 
+    pd.statusText.clear();
     pd.topText.clear();
     pd.middleText.clear();
     pd.bottomText.clear();
@@ -276,6 +279,8 @@ void PresenceModifier::UpdateTrack( metadb_handle_ptr metadb )
         str = qwr::unicode::ToU8( strW );
     };
 
+    pd.statusText = queryData( "[%album artist%]" );
+    fixStringLength( pd.statusText );
     pd.topText = queryData( config::topTextQuery );
     fixStringLength( pd.topText );
     pd.middleText = queryData( config::middleTextQuery );

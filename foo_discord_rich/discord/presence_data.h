@@ -22,6 +22,7 @@ private:
 public:
     DiscordRichPresence presence;
     metadb_handle_ptr metadb;
+    qwr::u8string statusText;
     qwr::u8string topText;
     qwr::u8string middleText;
     qwr::u8string bottomText;
